@@ -1,0 +1,74 @@
+﻿@model IEnumerable<FIRPLAKV4.Data.Entities.ProductType>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+
+<div class="container-fluid">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active">Tipos de producto</li>
+        </ol>
+    </nav>
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"> Tipos de producto </h1>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+
+            <div class="table-responsive mt-2">
+                <table class="table table-bordered" id="myDataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th style="cursor: pointer;"> Id </th>
+                            <th style="cursor: pointer;"> Nombre </th>
+                            <th style="cursor: pointer;"> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td> @Html.DisplayFor(modelItem => item.Id) </td>
+                                <td> @Html.DisplayFor(modelItem => item.Name) </td>
+                                <td>
+                                    <a class="btn btn-warning btn-circle"
+                                       asp-action="Edit"
+                                       asp-route-id="@item.Id">
+                                        <i class="fas fa-edit" style="color:#F8F9FC;cursor: pointer;"></i>
+                                    </a>
+
+                                    <a class="btn btn-info btn-circle"
+                                       asp-action="Details"
+                                       asp-route-id="@item.Id">
+                                        <i class="fa-solid fa-circle-info" style="color:#F8F9FC;cursor: pointer;"></i>
+                                    </a>
+
+                                    <a class="btn btn-danger btn-circle"
+                                       asp-action="Delete"
+                                       asp-route-id="@item.Id">
+                                        <i class="fa-solid fa-trash-can" style="color:#F8F9FC;cursor: pointer;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

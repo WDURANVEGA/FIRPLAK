@@ -1,0 +1,141 @@
+﻿@model FIRPLAKV4.DTOs.OrderDTO2
+
+@{
+    ViewData["Title"] = "Despacho";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+
+<div class="container-fluid">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a asp-action="Index">Ordenes</a></li>
+            <li class="breadcrumb-item active">Despacho</li>
+
+        </ol>
+    </nav>
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"> Despacho </h1>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header py-3">
+            <div class=" row">
+                <h3 class="m-0 font-weight-bold text-primary col-md-11">Detalle de Despacho</h3>
+            </div>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+
+                <div class="col-md-4">
+                    <label asp-for="Id" class="control-label"></label>
+                    <input readonly value="@Model.Id" class="form-control form-control-user1" />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Customer"></label>
+                    <input readonly asp-for="Customer" class="form-control form-control-user1" placeholder="Cliente" />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="DestinationAddress"></label>
+                    <input readonly asp-for="DestinationAddress" class="form-control form-control-user1" placeholder="Cliente" />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Conveyor" class="control-label"></label>
+                    <input readonly value="@Model.Conveyor.Name" class="form-control form-control-user1" />
+                </div>
+
+                <div class="col-md-4">
+                    <label asp-for="Responsible" class="control-label"></label>
+                    <input readonly value="@Model.Responsible.FullName" class="form-control form-control-user1" />
+                </div>
+
+            </div>
+
+        <div class="row">
+            <h5>Detalles</h5>
+            <div class="col-md-12">
+
+                <div class="table-responsive mt-2">
+                    <table class="table table-bordered" id="myDataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th style="cursor: pointer;"> Producto </th>
+                                <th style="cursor: pointer;"> Cantidad </th>
+                                <th style="cursor: pointer;"> Fecha de entrega </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.Details)
+                            {
+                                <tr>
+                                    <td> @($"{item.Product.Name} ({item.Product.ProductType.Name})") </td>
+                                    <td> @item.Amount </td>
+                                    <td> @item.DeliveryDate </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header py-3">
+            <div class=" row">
+                <h3 class="m-0 font-weight-bold text-primary col-md-11">Información de Entrega</h3>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <form class="user" asp-action="Dispatch">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="RecievedAt" class="control-label"></label>
+                            <input asp-for="RecievedAt" class="form-control form-control-user1" placeholder="Fecha de recibido">
+                            <span asp-validation-for="RecievedAt" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Reciever" class="control-label"></label>
+                            <input asp-for="Reciever" class="form-control form-control-user1" placeholder="Quien recibe">
+                            <span asp-validation-for="Reciever" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="OrderStateId" class="control-label"></label>
+                            <select asp-for="OrderStateId" asp-items="Model.OrderStates" class="form-control"></select>
+                            <span asp-validation-for="OrderStateId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </form>
+
+        </div>
+    </div>

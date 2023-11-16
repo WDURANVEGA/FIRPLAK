@@ -1,0 +1,16 @@
+﻿@{
+    var errors = ViewData.ModelState.Values.SelectMany(v => v.Errors);
+}
+
+@if (errors.Any())
+{
+    <div class="alert alert-danger" role="alert">
+        <strong>Error de validación:</strong>
+        <ul>
+            @foreach (var error in errors)
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}

@@ -1,0 +1,216 @@
+﻿@model FIRPLAKV4.DTOs.OrderDTO
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_MyLayout.cshtml";
+}
+<div class="container-fluid">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"> <a asp-action="Index">Ordenes</a></li>
+            <li class="breadcrumb-item active">Nueva Orden</li>
+
+        </ol>
+    </nav>
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800"> Nueva Orden </h1>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+
+            <form class="user" asp-action="Create" form="frmNewUser">
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" id="Details" name="Details" />
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="Customer"></label>
+                            <input asp-for="Customer" class="form-control form-control-user1" placeholder="Cliente" />
+                            <span asp-validation-for="Customer" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="DestinationAddress"></label>
+                            <input asp-for="DestinationAddress" class="form-control form-control-user1" placeholder="Cliente" />
+                            <span asp-validation-for="DestinationAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="col-md-11" id="productsContainer">
+
+                        <div class="row productItem">
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Producto</label>
+                                    <select class="form-control custom-width ddlDetails">
+                                        @foreach(var item in Model.Products)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Cantidad</label>
+                                    <input type="number" placeholder="Cantidad" class="form-control amount" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="fechaEntrega">Fecha de Entrega:</label>
+                                    <input type="date" class="form-control form-control-user1 deliveryDate" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        <button id="btnAddProduct" type="button" class="btn btn-primary" style="transform: translateY(32px);">+</button>
+                    </div>
+
+                    <hr />
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ConveyorId" class="control-label"></label>
+                            <select asp-for="ConveyorId" asp-items="Model.Conveyors" class="form-control"></select>
+                            <span asp-validation-for="ConveyorId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="ResponsibleId" class="control-label"></label>
+                            <select asp-for="ResponsibleId" asp-items="Model.Users" class="form-control"></select>
+                            <span asp-validation-for="ResponsibleId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mt-3">
+                    <button type="submit" id="btnSave" type="button" class="btn btn-primary ml-2">Guardar</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#btnAddProduct').click(function (e) {
+                    
+                e.preventDefault();
+
+                const html = `
+                        <div class="row productItem">
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Producto</label>                                    
+                                    <select class="form-control custom-width ddlDetails">
+                                        @foreach(var item in Model.Products)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Cantidad</label>
+                                    <input type="number" placeholder="Cantidad" class="form-control amount" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="fechaEntrega">Fecha de Entrega:</label>
+                                    <input type="date" class="form-control form-control-user1 deliveryDate" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button id="btnRemoveProduct" class="btn btn-danger btn-circle" style="transform: translateY(28px);">
+                                            <i class="fa-solid fa-trash-can" style="color:#F8F9FC;cursor: pointer;"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    `
+
+                $('#productsContainer').append(html);
+
+            });
+
+            $('body').delegate('#btnRemoveProduct', 'click', function (e) {
+
+                $(this).closest('.productItem').remove();
+            });
+
+            $('#btnSave').click(function (e) {
+
+                //e.preventDefault();
+
+                let details = [];
+
+                $('.productItem').each(function (i, item) {
+
+                    const productId = $(this).find('.ddlDetails').val();
+                    const amount = $(this).find('.amount').val();
+                    const deliveryDate = $(this).find('.deliveryDate').val();
+
+                    const detail = {
+
+                        ProductId: productId,
+                        Amount: amount,
+                        DeliveryDate: deliveryDate
+                    };
+
+                    details.push(detail);
+
+                });
+
+                $('#Details').val( JSON.stringify(details));
+
+            });
+
+        });
+
+    </script>
+
+}

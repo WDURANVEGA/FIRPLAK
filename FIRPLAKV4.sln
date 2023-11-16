@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33801.468
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FIRPLAKV4", "FIRPLAKV4\FIRPLAKV4.csproj", "{8A19B3A6-5CA3-40B5-8F4B-701DA1D3D7CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FIRPLAKV4", "FIRPLAKV4\FIRPLAKV4.csproj", "{8A19B3A6-5CA3-40B5-8F4B-701DA1D3D7CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
